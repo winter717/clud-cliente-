@@ -1,3 +1,3 @@
-INSERT INTO TBL_CLIENTE (NOME, AGE, EMAIL, WEIGHT) VALUES ('Luiza gata gorda', 1 , 'LuizaMimoGorda@gmail.com', '3kg');
-INSERT INTO TBL_CLIENTE (NOME, AGE, EMAIL, WEIGHT) VALUES ('Sophia Prado', 18 , 'SophiaLinda@gmail.com', '45kg');
-INSERT INTO TBL_CLIENTE (NOME, AGE, EMAIL,  WEIGHT) VALUES ('Adriana Prado', 49, 'DriPrado@gmail.com', '61kg');
+INSERT INTO TBL_CLIENTE (NM_CLIENTE, AGE, DS_EMAIL, NR_TELEFONE, NR_CPF) VALUES ('Vitor Oliveira', 18, 'vitorhenriquereisoliveira@gmail.com', 11997540090, 44595044910);
+INSERT INTO TBL_CLIENTE (NM_CLIENTE, AGE, DS_EMAIL, NR_TELEFONE, NR_CPF) VALUES ('Tierri Cardoso', 27, 't202@outlook.com', 15939584095, 60403995849);
+INSERT INTO TBL_CLIENTE (NM_CLIENTE, AGE, DS_EMAIL, NR_TELEFONE, NR_CPF) VALUES ('Gonçalves Gonçalves', 60, 'gongon@gmail.com', 11958849203, 30984900592);

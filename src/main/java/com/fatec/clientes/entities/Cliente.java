@@ -14,14 +14,15 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "NOME", length = 100, nullable = false)
+    @Column(name = "NM_CLIENTE", length = 100, nullable = false)
     private String name;
-    @Column(name = "AGE", nullable = true)
     private Integer age;
-    @Column(name = "EMAIL", nullable = true)
+    @Column(name = "DS_EMAIL", nullable = true)
     private String email;
-    @Column(name = "WEIGHT", nullable = true)
-    private String weight;
+    @Column(name = "NR_TELEFONE", length = 11)
+    private String number;
+    @Column(name = "NR_CPF", length = 11, nullable = false)
+    private String cpf;
 
     public Long getId() {
         return id;
@@ -55,12 +56,20 @@ public class Cliente {
         this.email = email;
     }
 
-    public String getWeight() {
-        return weight;
+    public String getNumber() {
+        return number;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     @Override
@@ -71,7 +80,8 @@ public class Cliente {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((age == null) ? 0 : age.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((weight == null) ? 0 : weight.hashCode());
+        result = prime * result + ((number == null) ? 0 : number.hashCode());
+        result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
         return result;
     }
 
@@ -104,12 +114,16 @@ public class Cliente {
                 return false;
         } else if (!email.equals(other.email))
             return false;
-        if (weight == null) {
-            if (other.weight != null)
+        if (number == null) {
+            if (other.number != null)
                 return false;
-        } else if (!weight.equals(other.weight))
+        } else if (!number.equals(other.number))
+            return false;
+        if (cpf == null) {
+            if (other.cpf != null)
+                return false;
+        } else if (!cpf.equals(other.cpf))
             return false;
         return true;
     }
-
 }

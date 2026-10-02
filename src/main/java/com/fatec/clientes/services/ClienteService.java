@@ -2,50 +2,56 @@ package com.fatec.clientes.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fatec.clientes.dtos.ClienteRequest;
+import com.fatec.clientes.dtos.ClienteResponse;
 import com.fatec.clientes.entities.Cliente;
+import com.fatec.clientes.mappers.ClienteMapper;
 import com.fatec.clientes.repositories.ClienteRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ClienteService {
-    private final ClienteRepository repository;
 
-    ClienteService(ClienteRepository repository) {
-        this.repository = repository;
+    @Autowired
+    private ClienteRepository repository;
+
+    public ClienteResponse findById(Long id) {
+        return repository.findById(id).map(ClienteMapper::toDTO).orElseThrow(() -> new EntityNotFoundException("Cliente não cadastrado"));
     }
 
-    public Cliente findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException());
-    }
-
-    public List<Cliente> findAll() {
-        return repository.findAll();
+    public List<ClienteResponse> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(ClienteMapper::toDTO)
+                .toList();
     }
 
     public void deleteById(Long id) {
         if (repository.existsById(id))
             repository.deleteById(id);
         else
-            throw new EntityNotFoundException("Produto não cadastrado");
+            throw new EntityNotFoundException("Cliente não cadastrado");
     }
 
-    public Cliente save(Cliente cliente) {
-        return repository.save(cliente);
+    public ClienteResponse save(ClienteRequest cliente) {
+        Cliente c = repository.save(ClienteMapper.toEntity(cliente));
+        return ClienteMapper.toDTO(c);
     }
 
-    public void update(Cliente cliente, Long id) {
-        Cliente p = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Produto não cadastrado"));
+    public void update(ClienteRequest cliente, Long id) {
+        Cliente c = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não cadastrado"));
 
-        p.setAge(cliente.getAge());
-        p.setName(cliente.getName());
-        p.setWeight(cliente.getWeight());
-        p.setEmail(cliente.getEmail());
+        c.setAge(cliente.age());
+        c.setName(cliente.name());
+        c.setEmail(cliente.email());
+        c.setNumber(cliente.number());
+        c.setCpf(cliente.cpf());
 
-        repository.save(p);
-
+        repository.save(c);
     }
 }

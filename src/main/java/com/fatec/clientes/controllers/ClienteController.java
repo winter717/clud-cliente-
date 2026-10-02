@@ -3,6 +3,7 @@ package com.fatec.clientes.controllers;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,25 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fatec.clientes.dtos.ClienteRequest;
+import com.fatec.clientes.dtos.ClienteResponse;
 import com.fatec.clientes.entities.Cliente;
 import com.fatec.clientes.services.ClienteService;
 
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
-    private final ClienteService service;
 
-    ClienteController(ClienteService service) {
-        this.service = service;
-    }
+    @Autowired
+    private ClienteService service;
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> getAll() {
+    public ResponseEntity<List<ClienteResponse>> getAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Cliente> getById(@PathVariable long id) {
+    public ResponseEntity<ClienteResponse> getById(@PathVariable long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
@@ -43,22 +44,22 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
-        Cliente p = service.save(cliente);
+    public ResponseEntity<ClienteResponse> save(@RequestBody ClienteRequest cliente) {
+        ClienteResponse c = service.save(cliente);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(p.getId())
+                .buildAndExpand(c.id())
                 .toUri();
 
-        return ResponseEntity.created(location).body(p);
+        return ResponseEntity.created(location).body(c);
 
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Void> update(@PathVariable long id,
-            @RequestBody Cliente cliente) {
+            @RequestBody ClienteRequest cliente) {
         service.update(cliente, id);
         return ResponseEntity.noContent().build();
     }
